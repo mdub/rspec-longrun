@@ -19,14 +19,22 @@ describe RSpec::Stepper::Formatter do
     output_buffer.string
   end
 
+  module NoColor
+
+    def color_enabled?
+      false
+    end
+
+  end
+
   before do
-    formatter.stub(:color_enabled?).and_return(false)
-    example_group.run(formatter)
+    formatter.extend(NoColor)
+    suite.run(formatter)
   end
 
   context "for nested example groups" do
 
-    let(:example_group) do
+    let(:suite) do
       RSpec::Core::ExampleGroup.describe("foo") do
         describe "bar" do
           describe "baz" do
@@ -43,6 +51,27 @@ describe RSpec::Stepper::Formatter do
           bar
             baz
           qux
+      EOF
+    end
+
+  end
+
+  context "with a passing examples" do
+
+    let(:suite) do
+      RSpec::Core::ExampleGroup.describe("suite") do
+        it "good" do; end
+        it "great" do; end
+      end
+    end
+
+    it "declares success" do
+      output.should eql(undent(<<-EOF))
+        suite
+          good
+          * PASSED
+          great
+          * PASSED
       EOF
     end
 

@@ -1,4 +1,4 @@
-require "rspec/core/formatters/base_formatter"
+require "rspec/core/formatters/base_text_formatter"
 
 module RSpec
   module Stepper
@@ -11,15 +11,47 @@ module RSpec
       end
 
       def example_group_started(example_group)
+        super(example_group)
         emit(example_group.description.strip)
-        @indent_level += 1
+        indent!
       end
 
       def example_group_finished(example_group)
-        @indent_level -= 1
+        super(example_group)
+        outdent!
+      end
+
+      def example_started(example)
+        super(example)
+        emit(example.description.strip)
+        indent!
+      end
+
+      def example_passed(example)
+        super(example)
+        outdent!
+        emit(green("* PASSED"))
+      end
+
+      def example_pending(example)
+        super(example)
+        outdent!
+      end
+
+      def example_failed(example)
+        super(example)
+        outdent!
       end
 
       private
+
+      def indent!
+        @indent_level += 1
+      end
+
+      def outdent!
+        @indent_level -= 1
+      end
 
       def emit(message)
         output.puts(message.gsub(/^/, current_indentation))
