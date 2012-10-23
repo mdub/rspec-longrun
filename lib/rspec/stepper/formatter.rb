@@ -29,17 +29,19 @@ module RSpec
 
       def example_passed(example)
         super(example)
+        emit(green("PASSED"))
         outdent!
-        emit(green("* PASSED"))
       end
 
       def example_pending(example)
         super(example)
+        emit(yellow("PENDING (#{example.execution_result[:pending_message]})"))
         outdent!
       end
 
       def example_failed(example)
         super(example)
+        emit(red("FAILED"))
         outdent!
       end
 

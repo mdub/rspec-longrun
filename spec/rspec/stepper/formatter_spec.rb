@@ -56,22 +56,29 @@ describe RSpec::Stepper::Formatter do
 
   end
 
-  context "with a passing examples" do
+  context "with examples" do
 
     let(:suite) do
       RSpec::Core::ExampleGroup.describe("suite") do
-        it "good" do; end
-        it "great" do; end
+        it "works" do; end
+        it "is unimplemented" do
+          pending "implement me"
+        end
+        it "fails" do
+          fail "no worky"
+        end
       end
     end
 
-    it "declares success" do
+    it "outputs example names and status" do
       output.should eql(undent(<<-EOF))
         suite
-          good
-          * PASSED
-          great
-          * PASSED
+          works
+            PASSED
+          is unimplemented
+            PENDING (implement me)
+          fails
+            FAILED
       EOF
     end
 
