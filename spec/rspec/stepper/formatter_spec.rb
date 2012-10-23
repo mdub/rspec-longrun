@@ -24,16 +24,25 @@ describe RSpec::Stepper::Formatter do
     example_group.run(formatter)
   end
 
-  context "for a simple spec" do
+  context "for nested example groups" do
 
     let(:example_group) do
-      RSpec::Core::ExampleGroup.describe("group name") do
+      RSpec::Core::ExampleGroup.describe("foo") do
+        describe "bar" do
+          describe "baz" do
+          end
+        end
+        describe "qux" do
+        end
       end
     end
 
-    it "outputs group names" do
-      output.should == undent(<<-EOF)
-        group name
+    it "outputs nested group name" do
+      output.should eql(undent(<<-EOF))
+        foo
+          bar
+            baz
+          qux
       EOF
     end
 

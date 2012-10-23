@@ -5,9 +5,28 @@ module RSpec
 
     class Formatter < RSpec::Core::Formatters::BaseTextFormatter
 
+      def initialize(output)
+        super(output)
+        @indent_level = 0
+      end
+
       def example_group_started(example_group)
-        super(example_group)
-        output.puts example_group.description.strip
+        emit(example_group.description.strip)
+        @indent_level += 1
+      end
+
+      def example_group_finished(example_group)
+        @indent_level -= 1
+      end
+
+      private
+
+      def emit(message)
+        output.puts(message.gsub(/^/, current_indentation))
+      end
+
+      def current_indentation
+        '  ' * @indent_level
       end
 
     end
