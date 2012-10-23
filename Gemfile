@@ -1,4 +1,6 @@
-source 'https://rubygems.org'
+source :rubygems
 
-# Specify your gem's dependencies in rspec-stepper.gemspec
 gemspec
+
+gem "rake"
+gem "rspec"

@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/rspec-stepper/version', __FILE__)
+require File.expand_path('../lib/rspec/stepper/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Mike Williams"]
@@ -9,9 +9,11 @@ Gem::Specification.new do |gem|
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "rspec-stepper"
   gem.require_paths = ["lib"]
-  gem.version       = Rspec::Stepper::VERSION
+  gem.version       = RSpec::Stepper::VERSION
+
+  gem.add_runtime_dependency("rspec-core", ">= 2.10.0")
+
 end
