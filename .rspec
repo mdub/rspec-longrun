@@ -1,0 +1,1 @@
+-r rspec/stepper -f RSpec::Stepper::Formatter --color
