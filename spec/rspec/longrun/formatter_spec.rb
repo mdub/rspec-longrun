@@ -3,6 +3,8 @@ require "stringio"
 
 describe RSpec::Longrun::Formatter do
 
+  include RSpec::Longrun::DSL
+
   let(:output_buffer) { StringIO.new }
   let(:formatter) { described_class.new(output_buffer) }
 
@@ -88,6 +90,7 @@ describe RSpec::Longrun::Formatter do
 
     let(:suite) do
       RSpec::Core::ExampleGroup.describe("suite") do
+        include RSpec::Longrun::DSL
         example "has steps" do
           step "Collect underpants" do
           end
