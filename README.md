@@ -23,40 +23,48 @@ Specify the custom output format when invoking RSpec, as follows:
 The resulting test output looks something like:
 
     Example group
-      First example
+      * First example
         OK
-      Second example
+      * Second example
         OK
-      Third example
+      * Third example
         PENDING (Not implemented yet)
+
 
 ### Tracking progress
 
-RSpec::Longrun defines a 'step' method that can be used to group blocks of code within the context of a large test.  For example:
+Include RSpec::Longrun::DSL to define the 'step' method, which can be used to group blocks of code within the context of a large test.  For example:
 
-    example "Log in and alter preferences" do
+    describe "Account management" do
 
-      step "Log in" do
-        # ...
-      end
+      include RSpec::Longrun::DSL     # <-- important
 
-      step "Navigate to preferences page" do
-        # ...
-      end
+      example "Log in and alter preferences" do
 
-      step "Change preferences" do
-        # ...
+        step "Log in" do
+          # ...
+        end
+
+        step "Navigate to preferences page" do
+          # ...
+        end
+
+        step "Change preferences" do
+          # ...
+        end
+
       end
 
     end
 
 The resulting test output looks something like:
 
-    Log in and alter preferences
-      - Log in
-      - Navigate to preferences page
-      - Change preferences
-      OK
+    Account management
+      * Log in and alter preferences
+        - Log in
+        - Navigate to preferences page
+        - Change preferences
+        OK
 
 ## Contributing
 
