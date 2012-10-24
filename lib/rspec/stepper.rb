@@ -1,3 +1,4 @@
-require "rspec/stepper/version"
+require "rspec/stepper/dsl"
 require "rspec/stepper/formatter"
+require "rspec/stepper/version"
 

@@ -45,6 +45,15 @@ module RSpec
         outdent!
       end
 
+      def step_started(description)
+        emit('- ' + description)
+        indent!
+      end
+
+      def step_finished(description)
+        outdent!
+      end
+
       private
 
       def indent!

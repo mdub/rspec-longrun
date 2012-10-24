@@ -1,4 +1,4 @@
-require "rspec/stepper/formatter"
+require "rspec/stepper"
 require "stringio"
 
 describe RSpec::Stepper::Formatter do
@@ -80,6 +80,39 @@ describe RSpec::Stepper::Formatter do
           fails
             FAILED
       EOF
+    end
+
+  end
+
+  context "with steps" do
+
+    let(:suite) do
+      RSpec::Core::ExampleGroup.describe("suite") do
+        it "has steps" do
+          step "Collect underpants" do
+          end
+          step "Er ..." do
+            step "(thinking)" do
+            end
+          end
+          step "Profit!" do
+          end
+        end
+      end
+    end
+
+    it "outputs steps" do
+      step "try steps" do
+        output.should eql(undent(<<-EOF))
+          suite
+            has steps
+              - Collect underpants
+              - Er ...
+                - (thinking)
+              - Profit!
+              PASSED
+        EOF
+      end
     end
 
   end
