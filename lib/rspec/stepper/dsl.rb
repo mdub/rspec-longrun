@@ -1,3 +1,5 @@
+require 'rspec/core/example'
+require 'rspec/core/example_group'
 require 'rspec/core/formatters/base_formatter'
 require 'rspec/core/reporter'
 
@@ -41,6 +43,8 @@ module RSpec::Core
   end
 
   class ExampleGroup
+
+    private
 
     def step(description)
       @_rspec_reporter.step_started(description)
