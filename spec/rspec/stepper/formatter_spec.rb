@@ -60,11 +60,11 @@ describe RSpec::Stepper::Formatter do
 
     let(:suite) do
       RSpec::Core::ExampleGroup.describe("suite") do
-        it "works" do; end
-        it "is unimplemented" do
+        example "works" do; end
+        example "is unimplemented" do
           pending "implement me"
         end
-        it "fails" do
+        example "fails" do
           fail "no worky"
         end
       end
@@ -88,7 +88,7 @@ describe RSpec::Stepper::Formatter do
 
     let(:suite) do
       RSpec::Core::ExampleGroup.describe("suite") do
-        it "has steps" do
+        example "has steps" do
           step "Collect underpants" do
           end
           step "Er ..." do
