@@ -22,7 +22,7 @@ module RSpec
 
       def example_started(example)
         super(example)
-        start_block(example.description)
+        start_block(cyan('* ') + example.description)
       end
 
       def example_passed(example)
@@ -41,7 +41,7 @@ module RSpec
       end
 
       def step_started(description)
-        start_block('- ' + description)
+        start_block(faint('- ' + description))
       end
 
       def step_finished(description)
@@ -66,6 +66,10 @@ module RSpec
 
       def current_indentation
         '  ' * @indent_level
+      end
+
+      def faint(text)
+        color(text, "\e[2m")
       end
 
     end

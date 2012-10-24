@@ -75,11 +75,11 @@ describe RSpec::Longrun::Formatter do
     it "outputs example names and status" do
       output.should eql(undent(<<-EOF))
         suite
-          works
+          * works
             OK
-          is unimplemented
+          * is unimplemented
             PENDING (implement me)
-          fails
+          * fails
             FAILED
       EOF
     end
@@ -108,7 +108,7 @@ describe RSpec::Longrun::Formatter do
       step "try steps" do
         output.should eql(undent(<<-EOF))
           suite
-            has steps
+            * has steps
               - Collect underpants
               - Er ...
                 - (thinking)
