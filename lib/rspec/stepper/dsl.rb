@@ -37,7 +37,7 @@ module RSpec::Core
 
     def start(reporter)
       start_without_reporter(reporter)
-      @example_group_instance._rspec_reporter = reporter
+      @example_group_instance.instance_variable_set(:@_rspec_reporter, reporter)
     end
 
   end
@@ -45,13 +45,11 @@ module RSpec::Core
   class ExampleGroup
 
     def step(description)
-      _rspec_reporter.step_started(description)
+      @_rspec_reporter.step_started(description)
       yield if block_given?
     ensure
-      _rspec_reporter.step_finished(description)
+      @_rspec_reporter.step_finished(description)
     end
-
-    attr_accessor :_rspec_reporter
 
   end
 
