@@ -12,55 +12,51 @@ module RSpec
 
       def example_group_started(example_group)
         super(example_group)
-        emit(example_group.description.strip)
-        indent!
+        start_block(example_group.description)
       end
 
       def example_group_finished(example_group)
         super(example_group)
-        outdent!
+        end_block
       end
 
       def example_started(example)
         super(example)
-        emit(example.description.strip)
-        indent!
+        start_block(example.description)
       end
 
       def example_passed(example)
         super(example)
-        emit(green("OK"))
-        outdent!
+        end_block(green("OK"))
       end
 
       def example_pending(example)
         super(example)
-        emit(yellow("PENDING (#{example.execution_result[:pending_message]})"))
-        outdent!
+        end_block(yellow("PENDING (#{example.execution_result[:pending_message]})"))
       end
 
       def example_failed(example)
         super(example)
-        emit(red("FAILED"))
-        outdent!
+        end_block(red("FAILED"))
       end
 
       def step_started(description)
-        emit('- ' + description)
-        indent!
+        start_block('- ' + description)
       end
 
       def step_finished(description)
-        outdent!
+        end_block
       end
 
       private
 
-      def indent!
+      def start_block(message)
+        emit(message.strip)
         @indent_level += 1
       end
 
-      def outdent!
+      def end_block(message = nil)
+        emit(message.strip) if message
         @indent_level -= 1
       end
 
