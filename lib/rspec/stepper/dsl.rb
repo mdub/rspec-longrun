@@ -20,11 +20,9 @@ module RSpec::Core
   class Formatters::BaseFormatter
 
     def step_started(description)
-      puts "STARTED #{description}"
     end
 
     def step_finished(description)
-      puts "FINISHED #{description}"
     end
 
   end
