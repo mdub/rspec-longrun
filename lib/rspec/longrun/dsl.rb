@@ -9,10 +9,13 @@ module RSpec
       private
 
       def step(description)
-        @_rspec_reporter.step_started(description)
-        yield if block_given?
-      ensure
-        @_rspec_reporter.step_finished(description)
+        pending(description) unless block_given?
+        begin
+          @_rspec_reporter.step_started(description)
+          yield
+        ensure
+          @_rspec_reporter.step_finished(description)
+        end
       end
 
     end

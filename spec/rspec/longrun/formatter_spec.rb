@@ -78,7 +78,7 @@ describe RSpec::Longrun::Formatter do
           * works
             OK
           * is unimplemented
-            PENDING (implement me)
+            PENDING: implement me
           * fails
             FAILED
       EOF
@@ -98,8 +98,7 @@ describe RSpec::Longrun::Formatter do
             step "(thinking)" do
             end
           end
-          step "Profit!" do
-          end
+          step "Profit!"
         end
       end
     end
@@ -112,8 +111,7 @@ describe RSpec::Longrun::Formatter do
               - Collect underpants
               - Er ...
                 - (thinking)
-              - Profit!
-              OK
+              PENDING: Profit!
         EOF
       end
     end

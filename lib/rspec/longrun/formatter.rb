@@ -32,7 +32,7 @@ module RSpec
 
       def example_pending(example)
         super(example)
-        end_block(yellow("PENDING (#{example.execution_result[:pending_message]})"))
+        end_block(yellow("PENDING: " + example.execution_result[:pending_message]))
       end
 
       def example_failed(example)
