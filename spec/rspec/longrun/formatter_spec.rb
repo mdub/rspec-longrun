@@ -74,7 +74,7 @@ describe RSpec::Longrun::Formatter do
       output.should eql(undent(<<-EOF))
         suite
           works
-            PASSED
+            OK
           is unimplemented
             PENDING (implement me)
           fails
@@ -110,7 +110,7 @@ describe RSpec::Longrun::Formatter do
               - Er ...
                 - (thinking)
               - Profit!
-              PASSED
+              OK
         EOF
       end
     end

@@ -24,9 +24,9 @@ The resulting test output looks something like:
 
     Example group
       First example
-        PASSED
+        OK
       Second example
-        FAILED
+        OK
       Third example
         PENDING (Not implemented yet)
 
@@ -56,6 +56,7 @@ The resulting test output looks something like:
       - Log in
       - Navigate to preferences page
       - Change preferences
+      OK
 
 ## Contributing
 

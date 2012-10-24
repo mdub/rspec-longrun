@@ -29,7 +29,7 @@ module RSpec
 
       def example_passed(example)
         super(example)
-        emit(green("PASSED"))
+        emit(green("OK"))
         outdent!
       end
 
