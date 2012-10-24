@@ -42,15 +42,17 @@ Include RSpec::Longrun::DSL to define the 'step' method, which can be used to gr
       example "Log in and alter preferences" do
 
         step "Log in" do
-          # ...
+          ui.go_home
+          ui.authenticate_as "joe", "fnord"
         end
 
         step "Navigate to preferences page" do
-          # ...
+          ui.nav.prefs_link.click
         end
 
         step "Change preferences" do
-          # ...
+          ui.prefs_pane.enter_defaults
+          ui.prefs_pane.save
         end
 
       end
@@ -65,6 +67,8 @@ The resulting test output looks something like:
         - Navigate to preferences page
         - Change preferences
         OK
+
+which gives you some extra context in the event that something fails, or hangs, during the test run.
 
 ## Contributing
 
