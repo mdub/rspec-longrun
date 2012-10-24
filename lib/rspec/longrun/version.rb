@@ -1,5 +1,5 @@
 module RSpec
-  module Stepper
+  module Longrun
     VERSION = "0.0.1"
   end
 end

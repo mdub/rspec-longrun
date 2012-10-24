@@ -1,1 +1,1 @@
--r rspec/stepper -f RSpec::Stepper::Formatter --color
+-r rspec/longrun -f RSpec::Longrun::Formatter --color

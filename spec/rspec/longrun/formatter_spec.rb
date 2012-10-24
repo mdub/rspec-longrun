@@ -1,7 +1,7 @@
-require "rspec/stepper"
+require "rspec/longrun"
 require "stringio"
 
-describe RSpec::Stepper::Formatter do
+describe RSpec::Longrun::Formatter do
 
   let(:output_buffer) { StringIO.new }
   let(:formatter) { described_class.new(output_buffer) }

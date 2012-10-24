@@ -1,7 +1,7 @@
 require "rspec/core/formatters/base_text_formatter"
 
 module RSpec
-  module Stepper
+  module Longrun
 
     class Formatter < RSpec::Core::Formatters::BaseTextFormatter
 
