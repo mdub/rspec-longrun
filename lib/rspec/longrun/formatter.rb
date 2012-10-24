@@ -22,7 +22,7 @@ module RSpec
 
       def example_started(example)
         super(example)
-        start_block(cyan('* ') + example.description)
+        start_block('* ' + cyan(example.description))
       end
 
       def example_passed(example)
