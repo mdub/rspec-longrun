@@ -22,14 +22,16 @@ Specify the custom output format when invoking RSpec, as follows:
 
 The resulting test output looks something like:
 
-    Example group
-      * First example
-        OK
-      * Second example
-        OK
-      * Third example
-        PENDING (Not implemented yet)
+    Example group {
+      First example {
+      } OK (1.2s)
+      Second example {
+      } OK (3.4s)
+      Third example {
+      } PENDING (Not implemented yet) (0.2s)
+    } (5.2s)
 
+(though a little more colourful).
 
 ### Tracking progress
 
@@ -61,12 +63,16 @@ Include RSpec::Longrun::DSL to define the 'step' method, which can be used to gr
 
 The resulting test output looks something like:
 
-    Account management
-      * Log in and alter preferences
-        - Log in
-        - Navigate to preferences page
-        - Change preferences
-        OK
+    Account management {
+      Log in and alter preferences {
+        Log in {
+        } (0.5s)
+        Navigate to preferences page {
+        } (0.2s)
+        Change preferences {
+        } (5.2s)
+      } OK (7.1s)
+    } OK (7.2s)
 
 which gives you some extra context in the event that something fails, or hangs, during the test run.
 
