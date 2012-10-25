@@ -3,8 +3,6 @@ require "stringio"
 
 describe RSpec::Longrun::Formatter do
 
-  include RSpec::Longrun::DSL
-
   let(:output_buffer) { StringIO.new }
   let(:formatter) { described_class.new(output_buffer) }
 
@@ -109,20 +107,18 @@ describe RSpec::Longrun::Formatter do
     end
 
     it "outputs steps" do
-      step "try steps" do
-        output.should eql(undent(<<-EOF))
-          suite {
-            has steps {
-              Collect underpants {
+      output.should eql(undent(<<-EOF))
+        suite {
+          has steps {
+            Collect underpants {
+            } (0.00s)
+            Er ... {
+              (thinking) {
               } (0.00s)
-              Er ... {
-                (thinking) {
-                } (0.00s)
-              } (0.00s)
-            } PENDING: Profit! (0.00s)
-          } (0.00s)
-        EOF
-      end
+            } (0.00s)
+          } PENDING: Profit! (0.00s)
+        } (0.00s)
+      EOF
     end
 
   end
