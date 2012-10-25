@@ -9,9 +9,11 @@ describe "Underpants gnomes" do
     step "Collect underpants" do
     end
     step "Umm ..." do
-      sleep 1.2 # thinking
+      sleep 0.3 # thinking
     end
-    step "Profit!"
+    step "Profit!" do
+      pending "need a real business plan"
+    end
   end
 
 end
