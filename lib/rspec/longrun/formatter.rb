@@ -54,11 +54,11 @@ module RSpec
       def begin_block(message)
         emit(message, faint('{'))
         @indent_level += 1
-        @block_begin_times.push(Time.now.to_i)
+        @block_begin_times.push(Time.now)
       end
 
       def end_block(message = nil)
-        finish_time = Time.now.to_i
+        finish_time = Time.now
         begin_time = @block_begin_times.pop
         timing = '(' + format_timing(begin_time, finish_time) + ')'
         @indent_level -= 1
