@@ -49,11 +49,9 @@ describe RSpec::Longrun::Formatter do
       output.should eql(undent(<<-EOF))
         foo {
           bar {
-            baz {
-            } (0.00s)
+            baz (0.00s)
           } (0.00s)
-          qux {
-          } (0.00s)
+          qux (0.00s)
         } (0.00s)
       EOF
     end
@@ -77,12 +75,9 @@ describe RSpec::Longrun::Formatter do
     it "outputs example names and status" do
       output.should eql(undent(<<-EOF))
         suite {
-          works {
-          } OK (0.00s)
-          is unimplemented {
-          } PENDING: implement me (0.00s)
-          fails {
-          } FAILED (0.00s)
+          works OK (0.00s)
+          is unimplemented PENDING: implement me (0.00s)
+          fails FAILED (0.00s)
         } (0.00s)
       EOF
     end
@@ -110,11 +105,9 @@ describe RSpec::Longrun::Formatter do
       output.should eql(undent(<<-EOF))
         suite {
           has steps {
-            Collect underpants {
-            } (0.00s)
+            Collect underpants (0.00s)
             Er ... {
-              (thinking) {
-              } (0.00s)
+              (thinking) (0.00s)
             } (0.00s)
           } PENDING: Profit! (0.00s)
         } (0.00s)

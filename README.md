@@ -23,12 +23,9 @@ Specify the custom output format when invoking RSpec, as follows:
 The resulting test output looks something like:
 
     Example group {
-      First example {
-      } OK (1.2s)
-      Second example {
-      } OK (3.4s)
-      Third example {
-      } PENDING (Not implemented yet) (0.2s)
+      First example OK (1.2s)
+      Second example OK (3.4s)
+      Third example PENDING (Not implemented yet) (0.2s)
     } (5.2s)
 
 (though a little more colourful).
@@ -65,12 +62,9 @@ The resulting test output looks something like:
 
     Account management {
       Log in and alter preferences {
-        Log in {
-        } (0.5s)
-        Navigate to preferences page {
-        } (0.2s)
-        Change preferences {
-        } (5.2s)
+        Log in (0.5s)
+        Navigate to preferences page (0.2s)
+        Change preferences (5.2s)
       } OK (7.1s)
     } OK (7.2s)
 

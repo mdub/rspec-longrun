@@ -7,8 +7,7 @@ module RSpec
 
       def initialize(output)
         super(output)
-        @indent_level = 0
-        @block_begin_times = []
+        @blocks = [Block.new(true)]
       end
 
       def example_group_started(example_group)
@@ -51,36 +50,68 @@ module RSpec
 
       private
 
+      def current_block
+        @blocks.last
+      end
+
       def begin_block(message)
-        emit(message, faint('{'))
-        @indent_level += 1
-        @block_begin_times.push(Time.now)
+        unless current_block.nested?
+          output << faint("{\n")
+          current_block.nested!
+        end
+        output << current_indentation
+        output << message.strip
+        output << ' '
+        @blocks.push(Block.new)
       end
 
       def end_block(message = nil)
-        finish_time = Time.now
-        begin_time = @block_begin_times.pop
-        timing = '(' + format_timing(begin_time, finish_time) + ')'
-        @indent_level -= 1
-        emit(faint('}'), message, faint(timing))
-      end
-
-      def emit(*args)
-        message = args.compact.map { |a| a.strip }.join(' ')
-        output.puts(message.gsub(/^/, current_indentation))
+        block = @blocks.pop
+        block.finished!
+        if block.nested?
+          output << current_indentation
+          output << faint('} ')
+        end
+        if message
+          output << message.strip
+          output << ' '
+        end
+        output << faint('(' + block.timing + ')')
+        output << "\n"
       end
 
       def current_indentation
-        '  ' * @indent_level
+        '  ' * (@blocks.size - 1)
       end
 
       def faint(text)
         color(text, "\e[2m")
       end
 
-      def format_timing(begin_time, finish_time)
-        delta = finish_time - begin_time
-        '%.2fs' % delta
+      class Block
+
+        def initialize(nested = false)
+          @began_at = Time.now
+          @nested = nested
+        end
+
+        def finished!
+          @finished_at = Time.now
+        end
+
+        def timing
+          delta = @finished_at - @began_at
+          '%.2fs' % delta
+        end
+
+        def nested!
+          @nested = true
+        end
+
+        def nested?
+          @nested
+        end
+
       end
 
     end
