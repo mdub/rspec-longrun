@@ -1,8 +1,4 @@
 require 'rspec/core'
-require 'rspec/core/example'
-require 'rspec/core/example_group'
-require 'rspec/core/formatters/base_formatter'
-require 'rspec/core/reporter'
 
 # extend rspec-core with support for "steps"
 
