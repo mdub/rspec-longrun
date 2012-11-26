@@ -1,3 +1,4 @@
+require 'rspec/core'
 require 'rspec/core/example'
 require 'rspec/core/example_group'
 require 'rspec/core/formatters/base_formatter'
