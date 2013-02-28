@@ -19,6 +19,10 @@ describe RSpec::Longrun::Formatter do
     output_buffer.string
   end
 
+  def normalized_output
+    output.gsub(/0\.\d\ds/, "N.NNs")
+  end
+
   module NoColor
 
     def color_enabled?
@@ -46,13 +50,13 @@ describe RSpec::Longrun::Formatter do
     end
 
     it "outputs nested group names" do
-      output.should eql(undent(<<-EOF))
+      normalized_output.should eql(undent(<<-EOF))
         foo {
           bar {
-            baz (0.00s)
-          } (0.00s)
-          qux (0.00s)
-        } (0.00s)
+            baz (N.NNs)
+          } (N.NNs)
+          qux (N.NNs)
+        } (N.NNs)
       EOF
     end
 
@@ -73,12 +77,12 @@ describe RSpec::Longrun::Formatter do
     end
 
     it "outputs example names and status" do
-      output.should eql(undent(<<-EOF))
+      normalized_output.should eql(undent(<<-EOF))
         suite {
-          works OK (0.00s)
-          is unimplemented PENDING: implement me (0.00s)
-          fails FAILED (0.00s)
-        } (0.00s)
+          works OK (N.NNs)
+          is unimplemented PENDING: implement me (N.NNs)
+          fails FAILED (N.NNs)
+        } (N.NNs)
       EOF
     end
 
@@ -102,15 +106,15 @@ describe RSpec::Longrun::Formatter do
     end
 
     it "outputs steps" do
-      output.should eql(undent(<<-EOF))
+      normalized_output.should eql(undent(<<-EOF))
         suite {
           has steps {
-            Collect underpants (0.00s)
+            Collect underpants (N.NNs)
             Er ... {
-              (thinking) (0.00s)
-            } (0.00s)
-          } PENDING: Profit! (0.00s)
-        } (0.00s)
+              (thinking) (N.NNs)
+            } (N.NNs)
+          } PENDING: Profit! (N.NNs)
+        } (N.NNs)
       EOF
     end
 
