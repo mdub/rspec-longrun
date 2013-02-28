@@ -22,22 +22,22 @@ module RSpec
 
       def example_started(example)
         super(example)
-        begin_block(cyan(example.description))
+        begin_block(detail_color(example.description))
       end
 
       def example_passed(example)
         super(example)
-        end_block(green("OK"))
+        end_block(success_color("OK"))
       end
 
       def example_pending(example)
         super(example)
-        end_block(yellow("PENDING: " + example.execution_result[:pending_message]))
+        end_block(pending_color("PENDING: " + example.execution_result[:pending_message]))
       end
 
       def example_failed(example)
         super(example)
-        end_block(red("FAILED"))
+        end_block(failure_color("FAILED"))
       end
 
       def step_started(description)
