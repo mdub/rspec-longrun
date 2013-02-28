@@ -48,6 +48,19 @@ module RSpec
         end_block
       end
 
+      protected
+
+      def self.alias_missing_method(method_name, fallback_method_name)
+        unless method_defined?(method_name)
+          alias_method method_name, fallback_method_name
+        end
+      end
+
+      alias_missing_method :detail_color, :cyan
+      alias_missing_method :success_color, :green
+      alias_missing_method :pending_color, :yellow
+      alias_missing_method :failure_color, :red
+
       private
 
       def current_block
