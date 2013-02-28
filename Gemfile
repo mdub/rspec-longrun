@@ -3,4 +3,4 @@ source :rubygems
 gemspec
 
 gem "rake"
-gem "rspec"
+gem "rspec", ENV["RSPEC_VERSION"]
