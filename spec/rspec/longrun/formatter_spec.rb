@@ -5,6 +5,7 @@ describe RSpec::Longrun::Formatter do
 
   let(:output_buffer) { StringIO.new }
   let(:formatter) { described_class.new(output_buffer) }
+  let(:reporter) { RSpec::Core::Reporter.new(formatter) }
 
   def undent(raw)
     if raw =~ /\A( +)/
@@ -33,7 +34,7 @@ describe RSpec::Longrun::Formatter do
 
   before do
     formatter.extend(NoColor)
-    suite.run(formatter)
+    suite.run(reporter)
   end
 
   context "for nested example groups" do
@@ -42,9 +43,11 @@ describe RSpec::Longrun::Formatter do
       RSpec::Core::ExampleGroup.describe("foo") do
         describe "bar" do
           describe "baz" do
+            it "bleeds"
           end
         end
         describe "qux" do
+          it "hurts"
         end
       end
     end
@@ -53,9 +56,13 @@ describe RSpec::Longrun::Formatter do
       normalized_output.should eql(undent(<<-EOF))
         foo {
           bar {
-            baz (N.NNs)
+            baz {
+              bleeds PENDING: Not yet implemented (N.NNs)
+            } (N.NNs)
           } (N.NNs)
-          qux (N.NNs)
+          qux {
+            hurts PENDING: Not yet implemented (N.NNs)
+          } (N.NNs)
         } (N.NNs)
       EOF
     end
