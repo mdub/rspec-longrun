@@ -2,10 +2,13 @@ require 'rspec/core'
 require 'rspec/core/formatters/base_formatter'
 
 # extend rspec-core with support for "steps"
-
 module RSpec::Core
 
   class Reporter
+
+    if defined?(NOTIFICATIONS)
+      NOTIFICATIONS.push("step_started", "step_finished")
+    end
 
     def step_started(description)
       notify :step_started, description
@@ -17,12 +20,16 @@ module RSpec::Core
 
   end
 
-  class Formatters::BaseFormatter
+  unless defined?(Reporter::NOTIFCATIONS)
 
-    def step_started(description)
-    end
+    class Formatters::BaseFormatter
 
-    def step_finished(description)
+      def step_started(description)
+      end
+
+      def step_finished(description)
+      end
+
     end
 
   end
