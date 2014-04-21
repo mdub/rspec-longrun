@@ -20,7 +20,7 @@ module RSpec::Core
 
   end
 
-  unless defined?(Reporter::NOTIFCATIONS)
+  unless defined?(Reporter::NOTIFICATIONS)
 
     class Formatters::BaseFormatter
 
