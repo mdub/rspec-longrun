@@ -1,5 +1,8 @@
 # RSpec::Longrun
 
+[![Gem Version](https://badge.fury.io/rb/rspec-longrun.png)](http://badge.fury.io/rb/rspec-longrun)
+[![Build Status](https://secure.travis-ci.org/mdub/rspec-longrun.png?branch=master)](http://travis-ci.org/mdub/rspec-longrun)
+
 RSpec is a fine unit-testing framework, but is also handy for acceptance and integration tests.  But the default report formatters make it difficult to track progress of such long-running tests.
 
 The RSpec::Longrun::Formatter outputs the name of each test as it starts, rather than waiting until it passes or fails.  It also provides a mechanism for reporting on progress of a test while it is still executing.
