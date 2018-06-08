@@ -9,15 +9,6 @@ describe RSpec::Longrun::Formatter do
     output_buffer.string
   end
 
-  def undent(raw)
-    if raw =~ /\A( +)/
-      indent = $1
-      raw.gsub(/^#{indent}/, '').gsub(/ +$/, '')
-    else
-      raw
-    end
-  end
-
   def normalized_output
     output.gsub(/0\.\d\ds/, "N.NNs")
   end
@@ -54,7 +45,7 @@ describe RSpec::Longrun::Formatter do
     end
 
     it "outputs suite entry" do
-      expect(normalized_output).to eql(undent(<<-EOF))
+      expect(normalized_output).to eql(<<~EOF)
         suite (N.NNs)
       EOF
     end
@@ -72,7 +63,7 @@ describe RSpec::Longrun::Formatter do
     end
 
     it "outputs example names and status" do
-      expect(normalized_output).to eql(undent(<<-EOF))
+      expect(normalized_output).to eql(<<~EOF)
         suite {
           works OK (N.NNs)
           fails FAILED (N.NNs)
@@ -97,7 +88,7 @@ describe RSpec::Longrun::Formatter do
     end
 
     it "outputs nested group names" do
-      expect(normalized_output).to eql(undent(<<-EOF))
+      expect(normalized_output).to eql(<<~EOF)
         top {
           A (N.NNs)
           B {
@@ -114,7 +105,7 @@ describe RSpec::Longrun::Formatter do
   #   let(:spec_file) { "stepped_spec.rb" }
 
   #   xit "outputs steps" do
-  #     expect(normalized_output).to eql(undent(<<-EOF))
+  #     expect(normalized_output).to eql(<<~EOF)
   #       suite {
   #         has steps {
   #           Collect underpants (N.NNs)
