@@ -22,7 +22,7 @@ describe RSpec::Longrun::Formatter do
   def example_group(desc)
     notification = double(group: double(description: desc))
     formatter.example_group_started(notification)
-    yield
+    yield if block_given?
     formatter.example_group_finished(notification)
   end
 
@@ -34,7 +34,14 @@ describe RSpec::Longrun::Formatter do
       )
     )
     formatter.example_started(notification)
+    yield if block_given?
     formatter.public_send("example_#{result}", notification)
+  end
+
+  def step(desc)
+    formatter.step_started(desc)
+    yield if block_given?
+    formatter.step_finished(desc)
   end
 
   context "given an empty example group" do
@@ -100,23 +107,36 @@ describe RSpec::Longrun::Formatter do
 
   end
 
-  # context "with steps" do
+  context "with steps" do
 
-  #   let(:spec_file) { "stepped_spec.rb" }
+    before do
+      example_group "suite" do
+        example "has steps", :passed do
+          step "Collect underpants" do
+          end
+          step "Er ..." do
+            step "(thinking)" do
+            end
+          end
+          step "Profit!"
+        end
+      end
+    end
 
-  #   xit "outputs steps" do
-  #     expect(normalized_output).to eql(<<~EOF)
-  #       suite {
-  #         has steps {
-  #           Collect underpants (N.NNs)
-  #           Er ... {
-  #             (thinking) (N.NNs)
-  #           } (N.NNs)
-  #         } PENDING: Profit! (N.NNs)
-  #       } (N.NNs)
-  #     EOF
-  #   end
+    it "outputs steps" do
+      expect(normalized_output).to eql(<<~EOF)
+        suite {
+          has steps {
+            Collect underpants (N.NNs)
+            Er ... {
+              (thinking) (N.NNs)
+            } (N.NNs)
+            Profit! (N.NNs)
+          } OK (N.NNs)
+        } (N.NNs)
+      EOF
+    end
 
-  # end
+  end
 
 end
