@@ -1,5 +1,5 @@
 module RSpec
   module Longrun
-    VERSION = "2.0.0.pre1"
+    VERSION = "2.0.0"
   end
 end
