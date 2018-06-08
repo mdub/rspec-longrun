@@ -5,39 +5,38 @@ module RSpec
 
     class Formatter < RSpec::Core::Formatters::BaseTextFormatter
 
+      RSpec::Core::Formatters.register self,
+        :example_group_started, :example_group_finished,
+        :example_started, :example_passed,
+        :example_pending, :example_failed
+
       def initialize(output)
         super(output)
         @blocks = [Block.new(true)]
       end
 
-      def example_group_started(example_group)
-        super(example_group)
-        begin_block(example_group.description)
+      def example_group_started(notification)
+        begin_block(notification.group.description)
       end
 
-      def example_group_finished(example_group)
-        super(example_group)
+      def example_group_finished(notification)
         end_block
       end
 
-      def example_started(example)
-        super(example)
-        begin_block(detail_color(example.description))
+      def example_started(notification)
+        begin_block(wrap(notification.example.description, :detail))
       end
 
-      def example_passed(example)
-        super(example)
-        end_block(success_color("OK"))
+      def example_passed(notification)
+        end_block(wrap("OK", :success))
       end
 
-      def example_pending(example)
-        super(example)
-        end_block(pending_color("PENDING: " + example.execution_result[:pending_message]))
+      def example_pending(notification)
+        end_block(wrap("PENDING: " + notification.example.execution_result.pending_message, :pending))
       end
 
-      def example_failed(example)
-        super(example)
-        end_block(failure_color("FAILED"))
+      def example_failed(notification)
+        end_block(wrap("FAILED", :failure))
       end
 
       def step_started(description)
@@ -48,20 +47,11 @@ module RSpec
         end_block
       end
 
-      protected
-
-      def self.alias_missing_method(method_name, fallback_method_name)
-        unless method_defined?(method_name)
-          alias_method method_name, fallback_method_name
-        end
-      end
-
-      alias_missing_method :detail_color, :cyan
-      alias_missing_method :success_color, :green
-      alias_missing_method :pending_color, :yellow
-      alias_missing_method :failure_color, :red
-
       private
+
+      def wrap(*args)
+        RSpec::Core::Formatters::ConsoleCodes.wrap(*args)
+      end
 
       def current_block
         @blocks.last
@@ -98,7 +88,8 @@ module RSpec
       end
 
       def faint(text)
-        color(text, "\e[2m")
+        return text unless RSpec.configuration.color_enabled?
+        "\e[2m#{text}\e[0m"
       end
 
       class Block

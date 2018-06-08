@@ -4,8 +4,10 @@ require "stringio"
 describe RSpec::Longrun::Formatter do
 
   let(:output_buffer) { StringIO.new }
-  let(:formatter) { described_class.new(output_buffer) }
-  let(:reporter) { RSpec::Core::Reporter.new(formatter) }
+
+  def output
+    output_buffer.string
+  end
 
   def undent(raw)
     if raw =~ /\A( +)/
@@ -16,54 +18,44 @@ describe RSpec::Longrun::Formatter do
     end
   end
 
-  def output
-    output_buffer.string
-  end
-
   def normalized_output
     output.gsub(/0\.\d\ds/, "N.NNs")
   end
 
-  module NoColor
-
-    def color_enabled?
-      false
-    end
-
-  end
+  let(:formatter) { described_class.new(output_buffer) }
 
   before do
-    formatter.extend(NoColor)
-    suite.run(reporter)
+    allow(RSpec.configuration).to receive(:color_enabled?).and_return(false)
   end
 
-  context "for nested example groups" do
+  def example_group(desc)
+    notification = double(group: double(description: desc))
+    formatter.example_group_started(notification)
+    yield
+    formatter.example_group_finished(notification)
+  end
 
-    let(:suite) do
-      RSpec::Core::ExampleGroup.describe("foo") do
-        describe "bar" do
-          describe "baz" do
-            it "bleeds"
-          end
-        end
-        describe "qux" do
-          it "hurts"
-        end
+  def example(desc, result, pending_message = nil)
+    notification = double(
+      example: double(
+        description: desc,
+        execution_result: double(pending_message: pending_message)
+      )
+    )
+    formatter.example_started(notification)
+    formatter.public_send("example_#{result}", notification)
+  end
+
+  context "given an empty example group" do
+
+    before do
+      example_group "suite" do
       end
     end
 
-    it "outputs nested group names" do
-      normalized_output.should eql(undent(<<-EOF))
-        foo {
-          bar {
-            baz {
-              bleeds PENDING: Not yet implemented (N.NNs)
-            } (N.NNs)
-          } (N.NNs)
-          qux {
-            hurts PENDING: Not yet implemented (N.NNs)
-          } (N.NNs)
-        } (N.NNs)
+    it "outputs suite entry" do
+      expect(normalized_output).to eql(undent(<<-EOF))
+        suite (N.NNs)
       EOF
     end
 
@@ -71,60 +63,69 @@ describe RSpec::Longrun::Formatter do
 
   context "with examples" do
 
-    let(:suite) do
-      RSpec::Core::ExampleGroup.describe("suite") do
-        example "works" do; end
-        example "is unimplemented" do
-          pending "implement me"
-        end
-        example "fails" do
-          fail "no worky"
-        end
+    before do
+      example_group "suite" do
+        example "works", :passed
+        example "fails", :failed
+        example "is unimplemented", :pending, "implement me"
       end
     end
 
     it "outputs example names and status" do
-      normalized_output.should eql(undent(<<-EOF))
+      expect(normalized_output).to eql(undent(<<-EOF))
         suite {
           works OK (N.NNs)
-          is unimplemented PENDING: implement me (N.NNs)
           fails FAILED (N.NNs)
+          is unimplemented PENDING: implement me (N.NNs)
         } (N.NNs)
       EOF
     end
 
   end
 
-  context "with steps" do
+  context "with nested example groups" do
 
-    let(:suite) do
-      RSpec::Core::ExampleGroup.describe("suite") do
-        include RSpec::Longrun::DSL
-        example "has steps" do
-          step "Collect underpants" do
+    before do
+      example_group "top" do
+        example_group "A" do
+        end
+        example_group "B" do
+          example_group "1" do
           end
-          step "Er ..." do
-            step "(thinking)" do
-            end
-          end
-          step "Profit!"
         end
       end
     end
 
-    it "outputs steps" do
-      normalized_output.should eql(undent(<<-EOF))
-        suite {
-          has steps {
-            Collect underpants (N.NNs)
-            Er ... {
-              (thinking) (N.NNs)
-            } (N.NNs)
-          } PENDING: Profit! (N.NNs)
+    it "outputs nested group names" do
+      expect(normalized_output).to eql(undent(<<-EOF))
+        top {
+          A (N.NNs)
+          B {
+            1 (N.NNs)
+          } (N.NNs)
         } (N.NNs)
       EOF
     end
 
   end
+
+  # context "with steps" do
+
+  #   let(:spec_file) { "stepped_spec.rb" }
+
+  #   xit "outputs steps" do
+  #     expect(normalized_output).to eql(undent(<<-EOF))
+  #       suite {
+  #         has steps {
+  #           Collect underpants (N.NNs)
+  #           Er ... {
+  #             (thinking) (N.NNs)
+  #           } (N.NNs)
+  #         } PENDING: Profit! (N.NNs)
+  #       } (N.NNs)
+  #     EOF
+  #   end
+
+  # end
 
 end
