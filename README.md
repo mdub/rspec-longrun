@@ -37,29 +37,31 @@ The resulting test output looks something like:
 
 Include RSpec::Longrun::DSL to define the 'step' method, which can be used to group blocks of code within the context of a large test.  For example:
 
-    describe "Account management" do
+```ruby
+describe "Account management" do
 
-      include RSpec::Longrun::DSL     # <-- important
+  include RSpec::Longrun::DSL     # <-- important
 
-      example "Log in and alter preferences" do
+  example "Log in and alter preferences" do
 
-        step "Log in" do
-          ui.go_home
-          ui.authenticate_as "joe", "fnord"
-        end
-
-        step "Navigate to preferences page" do
-          ui.nav.prefs_link.click
-        end
-
-        step "Change preferences" do
-          ui.prefs_pane.enter_defaults
-          ui.prefs_pane.save
-        end
-
-      end
-
+    step "Log in" do
+      ui.go_home
+      ui.authenticate_as "joe", "fnord"
     end
+
+    step "Navigate to preferences page" do
+      ui.nav.prefs_link.click
+    end
+
+    step "Change preferences" do
+      ui.prefs_pane.enter_defaults
+      ui.prefs_pane.save
+    end
+
+  end
+
+end
+```
 
 The resulting test output looks something like:
 
