@@ -4,6 +4,7 @@ require 'rspec/longrun'
 RSpec.describe("stepped") do
 
   include RSpec::Longrun::DSL
+
   example "has steps" do
     step "Collect underpants" do
     end
@@ -11,7 +12,10 @@ RSpec.describe("stepped") do
       step "(thinking)" do
       end
     end
-    step "Profit!"
+    step "Profit!" do
+      pending "a real plan"
+      fail
+    end
   end
 
 end

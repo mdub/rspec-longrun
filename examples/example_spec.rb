@@ -12,7 +12,7 @@ describe "Underpants gnomes" do
       sleep 0.3 # thinking
     end
     step "Profit!" do
-      pending "need a real business plan"
+      skip "need a real business plan"
     end
   end
 

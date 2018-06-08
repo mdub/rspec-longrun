@@ -6,6 +6,7 @@ module RSpec
     class Formatter < RSpec::Core::Formatters::BaseTextFormatter
 
       RSpec::Core::Formatters.register self,
+        :start,
         :example_group_started, :example_group_finished,
         :example_started, :example_passed,
         :example_pending, :example_failed
@@ -13,6 +14,10 @@ module RSpec
       def initialize(output)
         super(output)
         @blocks = [Block.new(true)]
+      end
+
+      def start(notification)
+        Thread.current["rspec.longrun.formatter"] = self
       end
 
       def example_group_started(notification)
@@ -43,8 +48,12 @@ module RSpec
         begin_block(description)
       end
 
-      def step_finished(description)
-        end_block
+      def step_finished
+        end_block(wrap("✓", :success))
+      end
+
+      def step_errored(e)
+        end_block(wrap("✗", :failure))
       end
 
       private

@@ -41,7 +41,7 @@ describe RSpec::Longrun::Formatter do
   def step(desc)
     formatter.step_started(desc)
     yield if block_given?
-    formatter.step_finished(desc)
+    formatter.step_finished
   end
 
   context "given an empty example group" do
@@ -127,11 +127,11 @@ describe RSpec::Longrun::Formatter do
       expect(normalized_output).to eql(<<~EOF)
         suite {
           has steps {
-            Collect underpants (N.NNs)
+            Collect underpants ✓ (N.NNs)
             Er ... {
-              (thinking) (N.NNs)
-            } (N.NNs)
-            Profit! (N.NNs)
+              (thinking) ✓ (N.NNs)
+            } ✓ (N.NNs)
+            Profit! ✓ (N.NNs)
           } OK (N.NNs)
         } (N.NNs)
       EOF
