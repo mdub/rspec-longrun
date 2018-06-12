@@ -13,6 +13,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = RSpec::Longrun::VERSION
 
-  gem.add_runtime_dependency("rspec-core", ">= 3.7.0")
+  gem.add_runtime_dependency("rspec-core", ">= 3.5.0", "< 4")
 
 end
