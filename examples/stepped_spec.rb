@@ -18,4 +18,14 @@ RSpec.describe("stepped") do
     end
   end
 
+  example "deep fail" do
+    step "Level 1" do
+      step "Level 2" do
+        step "Level 3" do
+          expect(1+1).to eq(3)
+        end
+      end
+    end
+  end
+
 end

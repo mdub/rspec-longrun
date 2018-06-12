@@ -4,12 +4,13 @@ module RSpec
 
       def step(description)
         rspec_longrun_formatter.step_started(description)
+        ok = false
         begin
           yield if block_given?
           rspec_longrun_formatter.step_finished
-        rescue => e
-          rspec_longrun_formatter.step_errored(e)
-          raise e
+          ok = true
+        ensure
+          rspec_longrun_formatter.step_failed unless ok
         end
       end
 
@@ -27,7 +28,7 @@ module RSpec
         def step_finished
         end
 
-        def step_errored(_e)
+        def step_failed
         end
 
       end

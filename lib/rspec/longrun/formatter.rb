@@ -52,7 +52,7 @@ module RSpec
         end_block(wrap("✓", :success))
       end
 
-      def step_errored(e)
+      def step_failed
         end_block(wrap("✗", :failure))
       end
 
