@@ -14,6 +14,11 @@ module RSpec
         end
       end
 
+      def xstep(description)
+        rspec_longrun_formatter.step_started(description)
+        rspec_longrun_formatter.step_pending
+      end
+
       private
 
       def rspec_longrun_formatter

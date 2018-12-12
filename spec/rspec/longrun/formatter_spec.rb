@@ -44,6 +44,11 @@ describe RSpec::Longrun::Formatter do
     formatter.step_finished
   end
 
+  def xstep(desc)
+    formatter.step_started(desc)
+    formatter.step_pending
+  end
+
   context "given an empty example group" do
 
     before do
@@ -132,6 +137,29 @@ describe RSpec::Longrun::Formatter do
               (thinking) ✓ (N.NNs)
             } ✓ (N.NNs)
             Profit! ✓ (N.NNs)
+          } OK (N.NNs)
+        } (N.NNs)
+      EOF
+    end
+
+  end
+
+  context 'with xsteps' do
+
+     before do
+      example_group "suite" do
+        example "has xsteps", :passed do
+          xstep "Collect underpants" do
+          end
+        end
+      end
+    end
+
+    it "outputs steps" do
+      expect(normalized_output).to eql(<<~EOF)
+        suite {
+          has xsteps {
+            Collect underpants PENDING (N.NNs)
           } OK (N.NNs)
         } (N.NNs)
       EOF
