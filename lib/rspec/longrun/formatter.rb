@@ -56,6 +56,10 @@ module RSpec
         end_block(wrap("✗", :failure))
       end
 
+      def step_pending
+        end_block(wrap("PENDING", :pending))
+      end
+
       private
 
       def wrap(*args)
